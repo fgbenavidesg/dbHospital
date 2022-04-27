@@ -38,20 +38,76 @@ const crearMedicos = async(req , res = response)=>{
     }
     
 }
-const actualizarMedicos = (req , res = response)=>{
-
-    res.json({
-        ok: true,
-        msg:'medicos'
-    })
+const actualizarMedicos = async(req , res = response)=>{
     
+    const uid = req.uid;
+    const id = req.params.id;
+
+    try {
+
+        const medicoDB = await Medico.findById(id);
+
+        if(!medicoDB){
+
+            return res.status(404).json({
+                ok:false,
+                msg:'el id de medico no se encontro'
+            });
+
+        }
+
+        cambiosMedico ={
+            ...req.body,
+            usuario: uid
+        }
+        const medicoActualizado  = await Medico.findByIdAndUpdate(id, cambiosMedico, {new: true});
+
+        res.json({
+            ok: true,
+            medicoDB : medicoActualizado
+        })
+        
+    } catch (error) {
+
+        res.status(500).json({
+            ok: false,
+            msg:'hable con el administrador'
+        })
+    }
+
 }
 const BorrarMedicos = (req , res = response)=>{
 
-    res.json({
-        ok: true,
-        msg:'medicos'
-    })
+    
+    const id = req.params.id;
+
+    try {
+
+        const medicoDB = await Medico.findById(id);
+
+        if(!medicoDB){
+
+            return res.status(404).json({
+                ok:false,
+                msg:'el id de medico no se encontro'
+            });
+
+        }
+
+         await Medico.findByIdAndDelete(id);
+
+        res.json({
+            ok: true,
+            msg : 'medico eliminado'
+        })
+        
+    } catch (error) {
+
+        res.status(500).json({
+            ok: false,
+            msg:'hable con el administrador'
+        })
+    }
     
 }
 module.exports={

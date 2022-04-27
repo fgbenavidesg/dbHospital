@@ -123,7 +123,7 @@ const actualizarUsuario = async(req, res= response) =>{
 }
 const borrarUsuario = async(req, res = response ) =>{
     const uid = req.params.id;
-    try {
+    try {   
         
         const usuarioDB = await Usuario.findById(uid);
 
@@ -141,7 +141,7 @@ const borrarUsuario = async(req, res = response ) =>{
         });
 
     } catch (error) {
-        console.log(error);
+        //console.log(error);
         res.status(500).json({
             ok: false,
             msg: 'error inesperado...'
