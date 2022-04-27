@@ -76,7 +76,7 @@ const actualizarMedicos = async(req , res = response)=>{
     }
 
 }
-const BorrarMedicos = (req , res = response)=>{
+const BorrarMedicos = async(req , res = response)=>{
 
     
     const id = req.params.id;
