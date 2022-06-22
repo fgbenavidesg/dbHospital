@@ -72,7 +72,7 @@ const google = async (req, res = response) => {
         await usuario.save();
         //generar el token - jwt
         const token = await generarJWT(usuario.id)
-        
+
         res.json({
             ok: true,
             token
@@ -88,15 +88,33 @@ const google = async (req, res = response) => {
 
 }
 
-const renewToken= async(req, res= response)=>{
+const renewToken = async (req, res = response) => {
 
     const uid = req.uid;
-    const token = await generarJWT(uid)
+    const token = await generarJWT(uid);
 
-       res.json({
-           ok: true,
-           token
-       }) 
+    try {
+        const usuario = await Usuario.findById(uid);
+        if (!usuario) {
+            res.status(404).json({
+                ok:false,
+                msg:'usuario con id no encontrado'
+            });
+        }
+        res.json({
+            ok: true,
+            token,
+            usuario
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(401).json({
+            ok: false,
+            msg: 'consultar con el administrador'
+        })
+    }
+
 }
 
 module.exports = {
