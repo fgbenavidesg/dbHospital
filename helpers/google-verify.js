@@ -11,7 +11,7 @@ const client = new OAuth2Client(process.env.GOOGLE_ID);
   const {name, email, picture} = payload;
   return {name, email, picture};
 }
-verify().catch(console.error);
+//verify().catch(console.error);
 module.exports={
     verify
 }
